@@ -1,0 +1,20 @@
+#!/bin/bash
+
+cd /tmp/rom
+
+. build/envsetup.sh
+lunch nad_X00T-user
+export CCACHE_DIR=/tmp/ccache
+export CCACHE_EXEC=$(which ccache)
+export USE_CCACHE=1
+export TZ=Asia/Kolkata #put before last build command
+ccache -M 20G
+ccache -o compression=true
+ccache -z
+
+#mka nad -j8 & # dont remove that '&'
+#sleep 90m
+#kill %1
+#ccache -s
+
+mka nad -j8
