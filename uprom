@@ -1,0 +1,15 @@
+#!/bin/bash
+
+ls /tmp/rom/out
+
+cd /tmp
+
+curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Uploading ROM if exist at $(date)&chat_id=${tg_id}&parse_mode=html"
+
+send_zip=$(ls rom/out/target/product/X00T/*.zip)
+
+time rclone copy $send_zip remote:X00Tccache -P
+
+dlink=$(basename rom/out/target/product/X00T/*.zip)
+
+curl -s "https://api.telegram.org/bot${bot_api}/sendmessage" --data "text=Download ROM Link https://rom.roninop.workers.dev/X00Tccache/$(dlink)&chat_id=${tg_id}&parse_mode=html"
